@@ -4,18 +4,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aayach.developerApi.model.Developer;
 import com.aayach.developerApi.repository.DeveloperRepository;
 
 
 @Service
+@Transactional(readOnly = true)
 public class DeveloperServiceImpl implements DeveloperService {
 
 	 @Autowired 
 	 DeveloperRepository developerRepository;
 	
-	
+	 @Transactional
 	public long saveDeveloper(Developer developer) {
 		return developerRepository.saveDeveloper(developer);
 	}
@@ -27,17 +29,17 @@ public class DeveloperServiceImpl implements DeveloperService {
 	public List<Developer> getAllDeveloper() {
 		return developerRepository.getAllDeveloper();
 	}
-
+	@Transactional
 	public void updateDeveloper(long id, Developer developer) {
 	  developerRepository.updateDeveloper(id, developer);
 		
 	}
-
+	@Transactional
 	public void deleteDeveloper(long id) {
 		developerRepository.deleteDeveloper(id);
 		
 	}
-
+	@Transactional
 	public void affectLanguageToDeveloper(String languageName, long id) {
 		developerRepository.affectLanguageToDeveloper(languageName,id);
 		

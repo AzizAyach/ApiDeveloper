@@ -11,11 +11,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.aayach.developerApi.model.Developer;
 import com.aayach.developerApi.model.Language;
-
 
 @Repository
 public class DeveloperRepositoryImpl implements DeveloperRepository {
@@ -23,8 +21,6 @@ public class DeveloperRepositoryImpl implements DeveloperRepository {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	
-	@Transactional
 	public long saveDeveloper(Developer developer) {
 		sessionFactory.getCurrentSession().save(developer);
 		return developer.getId();
@@ -40,28 +36,30 @@ public class DeveloperRepositoryImpl implements DeveloperRepository {
 		Query<Developer> query = session.createQuery(criteriaQuery);
 		return query.getResultList();
 	}
-	@Transactional
+
 	public void updateDeveloper(long id, Developer developer) {
-		  Session session = sessionFactory.getCurrentSession();
-	      Developer developerUp = session.byId(Developer.class).load(id);
-	      developerUp.setFirstName(developer.getFirstName());
-	      developerUp.setName(developer.getName());
-	      session.flush();
+		Session session = sessionFactory.getCurrentSession();
+		Developer developerUp = session.byId(Developer.class).load(id);
+		developerUp.setFirstName(developer.getFirstName());
+		developerUp.setName(developer.getName());
+		session.flush();
 
 	}
-	
-	@Transactional
+
 	public void deleteDeveloper(long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Developer developer = session.byId(Developer.class).load(id);
 		session.delete(developer);
 
 	}
-	@Transactional
+
 	public void affectLanguageToDeveloper(String languageName, long id) {
-		Language language = sessionFactory.getCurrentSession().get(Language.class, languageName);
-		Developer developer = sessionFactory.getCurrentSession().get(Developer.class, id);
-		developer.getLanguages().add(language);
+		Session session = sessionFactory.getCurrentSession();
+		Developer developerUp = session.byId(Developer.class).load(id);
+		Language language = session.byId(Language.class).load(languageName);
+		developerUp.getLanguages().add(language);
+		language.getDevelopers().add(developerUp);
+		session.flush();
 
 	}
 

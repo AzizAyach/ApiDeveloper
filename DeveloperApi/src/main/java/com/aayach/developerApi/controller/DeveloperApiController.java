@@ -1,6 +1,7 @@
 package com.aayach.developerApi.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -116,6 +117,34 @@ public class DeveloperApiController {
 	   public ResponseEntity<?> deleteDeveloper(@PathVariable("name") String name) {
 		   languageService.deleteLanguage(name);
 	      return ResponseEntity.ok().body(Constants.SUCCESS_DELETE_MESSAGE);
+	   }
+	   
+	   
+	   /**
+	    * affect developer to language 
+	    * 
+	    * @param id
+	    * 
+	    * @return ResponseEntity
+	    * **/
+	   @PutMapping("/developer/{id}/affect/{name}")
+	   public ResponseEntity<?> updateDeveloper(@PathVariable("id") long id, @PathVariable("name") String languageName) {
+		   developerService.affectLanguageToDeveloper(languageName, id);
+	      return ResponseEntity.ok().body(Constants.SUCCESS_UPDATE_MESSAGE);
+	   }
+	   
+	   
+	   /**
+	    * Get developer by language
+	    * 
+	    * @param id
+	    * 
+	    * @return ResponseEntity
+	    * **/
+	   @GetMapping("/developer/language/{name}")
+	   public ResponseEntity<Set<Developer>> getDeveloperbylanguage(@PathVariable("name") String languageName) {
+		   Set<Developer> developers = languageService.getDeveloperbyLanguage(languageName);
+	      return ResponseEntity.ok().body(developers);
 	   }
 	
 

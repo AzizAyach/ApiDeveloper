@@ -1,12 +1,15 @@
 package com.aayach.developerApi.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+
+@Entity
 public class Language implements Serializable {
 
 	/**
@@ -17,22 +20,22 @@ public class Language implements Serializable {
 	@Column(name = "language_id")
 	private String name;
 	@ManyToMany(mappedBy = "languages")
-	List<Developer> developers;
+	Set<Developer> developers;
 
 	public Language() {
 		super();
 	}
 
-	public Language(String name, List<Developer> developers) {
+	public Language(String name, Set<Developer> developers) {
 		this.name = name;
 		this.developers = developers;
 	}
 
-	public List<Developer> getDevelopers() {
+	public Set<Developer> getDevelopers() {
 		return developers;
 	}
 
-	public void setDevelopers(List<Developer> developers) {
+	public void setDevelopers(Set<Developer> developers) {
 		this.developers = developers;
 	}
 

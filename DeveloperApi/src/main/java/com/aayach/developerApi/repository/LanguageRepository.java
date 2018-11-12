@@ -1,5 +1,9 @@
 package com.aayach.developerApi.repository;
 
+import java.util.List;
+import java.util.Set;
+
+import com.aayach.developerApi.model.Developer;
 import com.aayach.developerApi.model.Language;
 
 public interface LanguageRepository {
@@ -8,6 +12,8 @@ public interface LanguageRepository {
 
 	void deleteLanguage(String name);
 	
-	Language getLanguagebyName(String name);
+	List<Language> getLanguagebyName(String name);
+	
+	Set<Developer> getDeveloperbyLanguage(String language);
 
 }

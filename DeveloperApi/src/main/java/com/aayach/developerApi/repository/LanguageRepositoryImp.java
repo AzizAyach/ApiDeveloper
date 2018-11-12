@@ -1,11 +1,20 @@
 package com.aayach.developerApi.repository;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aayach.developerApi.model.Developer;
 import com.aayach.developerApi.model.Language;
 
 
@@ -16,12 +25,12 @@ public class LanguageRepositoryImp implements LanguageRepository {
 	private SessionFactory sessionFactory;
 
 	
-	@Transactional
+	
 	public String saveLanguage(Language language) {
 		sessionFactory.getCurrentSession().save(language);
 		return language.getName();
 	}
-	@Transactional
+	
 	public void deleteLanguage(String name) {
 		Session session = sessionFactory.getCurrentSession();
 		Language language = session.byId(Language.class).load(name);
@@ -29,8 +38,19 @@ public class LanguageRepositoryImp implements LanguageRepository {
 
 	}
 
-	public Language getLanguagebyName(String name) {
-		return sessionFactory.getCurrentSession().get(Language.class, name);
+	public List<Language> getLanguagebyName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Language> criteriaQuery = cb
+				.createQuery(Language.class);
+		Root<Language> root = criteriaQuery.from(Language.class);
+		criteriaQuery.select(root);
+		Query<Language> query = session.createQuery(criteriaQuery);
+		return query.getResultList();
+	}
+
+	public Set<Developer> getDeveloperbyLanguage(String language) {
+		return sessionFactory.getCurrentSession().get(Language.class, language).getDevelopers();
 	}
 
 

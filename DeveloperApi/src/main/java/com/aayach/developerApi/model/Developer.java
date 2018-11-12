@@ -1,7 +1,7 @@
 package com.aayach.developerApi.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,7 +31,7 @@ public class Developer implements Serializable {
 
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "Developer_Language", joinColumns = { @JoinColumn(name = "developer_id") }, inverseJoinColumns = { @JoinColumn(name = "language_id") })
-	private List<Language> languages;
+	private Set<Language> languages;
 
 	public Developer() {
 		super();
@@ -39,7 +39,7 @@ public class Developer implements Serializable {
 	}
 
 	public Developer(Long id, String name, String firstName,
-			List<Language> languages) {
+			Set<Language> languages) {
 		this.id = id;
 		this.name = name;
 		this.firstName = firstName;
@@ -70,11 +70,11 @@ public class Developer implements Serializable {
 		this.firstName = firstName;
 	}
 
-	public List<Language> getLanguages() {
+	public Set<Language> getLanguages() {
 		return languages;
 	}
 
-	public void setLanguages(List<Language> languages) {
+	public void setLanguages(Set<Language> languages) {
 		this.languages = languages;
 	}
 
