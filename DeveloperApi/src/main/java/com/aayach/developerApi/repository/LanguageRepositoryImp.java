@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -49,8 +50,9 @@ public class LanguageRepositoryImp implements LanguageRepository {
 		return query.getResultList();
 	}
 
-	public Set<Developer> getDeveloperbyLanguage(String language) {
-		return sessionFactory.getCurrentSession().get(Language.class, language).getDevelopers();
+	public Set<Developer> getDeveloperbyLanguage(String languageName) {
+		Language language = sessionFactory.getCurrentSession().get(Language.class, languageName);
+		return language.getDevelopers();
 	}
 
 

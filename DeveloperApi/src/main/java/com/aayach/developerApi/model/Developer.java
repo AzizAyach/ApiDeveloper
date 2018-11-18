@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Developer implements Serializable {
 	/**
@@ -31,6 +33,7 @@ public class Developer implements Serializable {
 
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "Developer_Language", joinColumns = { @JoinColumn(name = "developer_id") }, inverseJoinColumns = { @JoinColumn(name = "language_id") })
+	@JsonIgnore
 	private Set<Language> languages;
 
 	public Developer() {

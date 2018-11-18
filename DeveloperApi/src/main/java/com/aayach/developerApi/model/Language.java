@@ -5,8 +5,12 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -19,7 +23,8 @@ public class Language implements Serializable {
 	@Id
 	@Column(name = "language_id")
 	private String name;
-	@ManyToMany(mappedBy = "languages")
+	@ManyToMany(mappedBy = "languages",fetch=FetchType.EAGER)
+	@JsonIgnore
 	Set<Developer> developers;
 
 	public Language() {
